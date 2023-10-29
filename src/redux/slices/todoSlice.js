@@ -1,13 +1,7 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
-  todoItems: [
-    {
-      id: 1,
-      todoMsg: 'Todo-complete-coding-challenge',
-      completed: false,
-    },
-  ],
+  todoItems: [],
 };
 
 export const todoSlice = createSlice({
@@ -18,35 +12,38 @@ export const todoSlice = createSlice({
       const todoItems = state.todoItems;
       todoItems.push({
         id: nanoid(),
-        todoMsg: action.payload,
+        todoMsg: action.payload.todoMsg,
         completed: false,
       });
     },
-    removeTodo: (state, action) => {
-      const todoItems = state.todoItems;
+    deleteTodo: (state, action) => {
+      let todoItems = state.todoItems;
       const id = action.payload.id;
-      todoItems = todoItems.filter((todoItem) => todoItem.id !== id);
+      state.todoItems = todoItems.filter((todoItem) => todoItem.id !== id);
     },
     updateTodo: (state, action) => {
-      const todoItems = state.todoItems;
+      let todoItems = state.todoItems;
       const id = action.payload.id;
       const todoMsg = action.payload.todoMsg;
-      todoItems = todoItems.map((todoItem) =>
+      state.todoItems = todoItems.map((todoItem) =>
         todoItem.id === id ? { ...todoItem, id, todoMsg } : todoItem
       );
     },
     toggleTodo: (state, action) => {
-      const todoItems = state.todoItems;
+      let todoItems = state.todoItems;
       const id = action.payload.id;
       const completed = action.payload.completed;
-      todoItems = todoItems.map((todoItem) =>
-        todoItem.id === id ? { ...todoItem, id, completed } : todoItem
+      state.todoItems = todoItems.map((todoItem) =>
+        todoItem.id === id ? { ...todoItem, completed } : todoItem
       );
+    },
+    clearTodo: (state) => {
+      state.todoItems = [];
     },
   },
 });
 
-export const { addTodo, removeTodo, updateTodo, toggleTodo } =
+export const { addTodo, deleteTodo, updateTodo, toggleTodo, clearTodo } =
   todoSlice.actions;
 
 export default todoSlice.reducer;
