@@ -1,9 +1,12 @@
 import React from 'react';
+import { TodoContainer } from './components/TodoApp';
+import { Header } from './components';
 
 const App = () => {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello-Productive-App!</h1>
+      <Header />
+      <TodoContainer />
     </>
   );
 };
